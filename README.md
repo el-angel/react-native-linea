@@ -28,12 +28,8 @@ class Test extends React.Component {
 }
 ```
 
-this.state.lp.addConnectionStateListener(this.listenConnectionState);
-    this.state.lp.addRfCardListener(this.listenRfCardInfo)
-    this.state.lp.addDebugListener(this.listenDebug);
-    this.state.lp.initialize();
-
 ### Available methods
+
 ```initialize```
 Initialize the scanner and make the app recognize it.
 
