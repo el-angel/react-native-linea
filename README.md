@@ -72,6 +72,7 @@ class Test extends React.Component {
         this.rfCardInfoListener = this.rfCardInfoListener.bind(this);
         this.debugListener = this.debugListener.bind(this);
         this.magneticInfoListener = this.magneticInfoListener.bind(this);
+        this.activateScanner = this.activateScanner.bind(this);
     }
 
     componentDidMount() {
@@ -81,6 +82,10 @@ class Test extends React.Component {
         this.state.linea.addDebugListener(this.debugListener);
         this.state.linea.addRfCardListener(this.rfCardInfoListener);
         this.state.linea.addMagneticInfoListener(this.magneticInfoListener);
+    }
+
+    activateScanner() {
+        this.state.linea.scanRfId();
     }
 
     connectionStateListener(data) {
@@ -97,6 +102,14 @@ class Test extends React.Component {
 
     magneticInfoListener(data) {
         ...
+    }
+
+    render() {
+        <TouchableOpacity onPress={this.activateScanner}>
+            <View>
+                <Text>Activate scanner</Text>
+            </View>
+        </TouchableOpacity>
     }
 }
 ```
