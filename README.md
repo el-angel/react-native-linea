@@ -51,7 +51,9 @@ addDebugListener(callback)
 Same as above, but then for debugging might you need it. Check the .m file if you want to debug.
 You can add debug lines in the .m file which are send to JavaScript so you can debug.
 
-```scanRf```
+```
+scanRf
+```
 Call this function to activate the RF card scanner. The RF scanner is automatically turned off everytime a card is scanned.
 
 #### Example
