@@ -30,16 +30,24 @@ class Test extends React.Component {
 
 ### Available methods
 
-```initialize```
+```
+initialize
+```
 Initialize the scanner and make the app recognize it.
 
-```addConnectionStateListener(callback)```
+```
+addConnectionStateListener(callback)
+```
 There's a delegate in objective c which is called when the scanner is connected. Give your function as a parameter to the above function and the data will be passed through to that function as a callback
 
-```addRfCardListener(callback)```
+```
+addRfCardListener(callback)
+```
 Same as above, when an RF card is scanned, the data is passed through to your function
 
-```addDebugListener(callback)```
+```
+addDebugListener(callback)
+```
 Same as above, but then for debugging might you need it. Check the .m file if you want to debug.
 You can add debug lines in the .m file which are send to JavaScript so you can debug.
 
