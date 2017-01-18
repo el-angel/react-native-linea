@@ -2,7 +2,7 @@
 import { Linea } from './NativeBridges';
 import { NativeEventEmitter } from 'react-native'; 
 
-export default class LP {
+export default class LineaPro {
     constructor() {
         this.evt = new NativeEventEmitter(Linea);
     }
