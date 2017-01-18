@@ -7,7 +7,9 @@
 //
 
 #import "RCTLinea.h"
+#import "RCTBridgeModule.h"
 #import "RCTEventDispatcher.h"
+#import "RCTEventEmitter.h"
 
 @implementation RCTLinea
 
@@ -15,42 +17,78 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(getObject:(NSString *)key callback:(RCTResponseSenderBlock)cb) {
-    linea = [DTDevices sharedDevice];
-    BOOL connected = [linea isPresent:DEVICE_TYPE_LINEA];
-    if (connected) {
-        cb(@[[NSNull null], @"Connected"]);
-    }
-    else {
-        cb(@[[NSNull null], @"Not Connected"]);
-    }
+
+#pragma mark Events
+- (NSArray<NSString *> *)supportedEvents {
+    return @[
+                @"connectionState",
+                @"rfcardInfo",
+                @"debug",
+                @"magneticInfo",
+            ];
 }
 
-RCT_REMAP_METHOD(connect, resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    NSString *name = @"hahah wtf";
-    linea = [DTDevices sharedDevice];
-    BOOL connected = [linea isPresent:DEVICE_TYPE_LINEA];
-    if (connected) {
-        resolve(@"connect");
-    }
-    else {
-        resolve(@"not connected");
-    }
+- (void)sendConnectionState:(NSString *)state {
+    [self sendEventWithName:@"connectionState" body:state];
+}
 
-    if ([name isEqualToString:@"hahah wtf"]) {
-        resolve(name);
-    }
-    else {
-        NSError *error = [NSError errorWithDomain:@"Wrong string" code:200 userInfo:@{}];
-        reject(@"no string", @"Wrong string name", error);
-    }
+- (void)sendRfCardInfo:(NSString *)data {
+    [self sendEventWithName:@"rfcardInfo" body:data];
+}
+
+- (void)sendDebug:(NSString *)debug {
+    [self sendEventWithName:@"debug" body:debug];
+}
+- (void)sendMagneticInfo:(NSArray *)data {
+    [self sendEventWithName:@"magneticInfo" body:data];
+}
+
+#pragma mark React Native Methods
+
+RCT_EXPORT_METHOD(initializeScanner) {
+    linea = [DTDevices sharedDevice];
+    [linea setDelegate:self];
+    [linea connect];
+    rfidOn = NO;
+    [self sendDebug:[[NSProcessInfo processInfo] globallyUniqueString]];
+}
+
+RCT_EXPORT_METHOD(scanRfId) {
+    [linea connect];
+    
+    int methods = CARD_SUPPORT_TYPE_A + CARD_SUPPORT_TYPE_B + CARD_SUPPORT_FELICA + CARD_SUPPORT_NFC + CARD_SUPPORT_JEWEL + CARD_SUPPORT_ISO15 + CARD_SUPPORT_STSRI + CARD_SUPPORT_PICOPASS_ISO14 + CARD_SUPPORT_PICOPASS_ISO15;
+    [linea rfInit:methods error:nil];
+}
+
+#pragma mark DTDevices delegates
+
+- (void)rfCardDetected:(int)cardIndex info:(DTRFCardInfo *)info {
+    NSData *uidData = [info UID];
+    NSString *string = [uidData base64EncodedStringWithOptions:nil];
+    
+    [self sendRfCardInfo:string];
+}
+
+- (void)magneticCardData:(NSString *)track1 track2:(NSString *)track2 track3:(NSString *)track3 {
+    [self sendMagneticInfo:@[track1, track2, track3]];
 }
 
 - (void)connectionState:(int)state {
     
-    NSString *eventName = @"connection_state";
-//    RCTTextEventType
-//      [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeChange reactTag:<#(NSNumber *)#> text:<#(NSString *)#> key:<#(NSString *)#> eventCount:<#(NSInteger)#>]
+    switch (state) {
+        case CONN_CONNECTED:
+            isConnected = YES;
+            [self sendConnectionState:@"connected"];
+            break;
+        case CONN_CONNECTING:
+            isConnected = NO;
+            [self sendConnectionState:@"connecting"];
+            break;
+        case CONN_DISCONNECTED:
+            isConnected = NO;
+            [self sendConnectionState:@"disconnected"];
+            break;
+    }
 }
 
 @end

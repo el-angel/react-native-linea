@@ -6,13 +6,15 @@
 //  Copyright © 2016 Angelo. All rights reserved.
 //
 
-#import "RCTBridge.h"
+#import "RCTBridgeModule.h"
+#import "RCTEventEmitter.h"
 #import "DTDevices.h"
 
-@interface RCTLinea : NSObject <RCTBridgeModule, DTDeviceDelegate> {
+@interface RCTLinea : RCTEventEmitter <RCTBridgeModule, DTDeviceDelegate> {
     
     DTDevices *linea;
-    
+    BOOL isConnected;
+    BOOL rfidOn;
 }
 
 @end
