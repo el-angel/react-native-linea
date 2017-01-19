@@ -5,5 +5,8 @@
   "main": "LineaPro.js",
   "repository": "git@github.com:godlevel/react-native-linea.git",
   "author": "Angelo A",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "react-native": "^0.40.0"
+  }
 }

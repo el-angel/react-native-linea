@@ -39,7 +39,7 @@ RCT_EXPORT_MODULE();
 - (void)sendDebug:(NSString *)debug {
     [self sendEventWithName:@"debug" body:debug];
 }
-- (void)sendMagneticInfo:(NSArray *)data {
+- (void)sendMagneticInfo:(NSString *)data {
     [self sendEventWithName:@"magneticInfo" body:data];
 }
 
@@ -70,7 +70,18 @@ RCT_EXPORT_METHOD(scanRfId) {
 }
 
 - (void)magneticCardData:(NSString *)track1 track2:(NSString *)track2 track3:(NSString *)track3 {
-    [self sendMagneticInfo:@[track1, track2, track3]];
+    if (track1 != nil && ![track1 isEqualToString:@""]) {
+        [self sendMagneticInfo:track1];
+    }
+    else if (track2 != nil && ![track2 isEqualToString:@""]) {
+        [self sendMagneticInfo:track2];
+    }
+    else if (track3 != nil && ![track3 isEqualToString:@""]) {
+        [self sendMagneticInfo:track3];
+    }
+    else {
+        [self sendDebug:@"ALL TRACKS ARE EMPTY"];
+    }
 }
 
 - (void)connectionState:(int)state {

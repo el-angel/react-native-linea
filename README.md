@@ -105,11 +105,13 @@ class Test extends React.Component {
     }
 
     render() {
-        <TouchableOpacity onPress={this.activateScanner}>
-            <View>
-                <Text>Activate scanner</Text>
-            </View>
-        </TouchableOpacity>
+        return (
+            <TouchableOpacity onPress={this.activateScanner}>
+                <View>
+                    <Text>Activate scanner</Text>
+                </View>
+            </TouchableOpacity>
+        )
     }
 }
 ```
