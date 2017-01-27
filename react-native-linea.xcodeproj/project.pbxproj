@@ -242,7 +242,9 @@
 		17B4EBF51E165D3B00E47CA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = bitcode;
 				DEVELOPMENT_TEAM = 44HY3E3285;
+				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/node_modules/react-native/React/**",
 					"S(SRCROOT)/**",
@@ -263,7 +265,9 @@
 		17B4EBF61E165D3B00E47CA5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = bitcode;
 				DEVELOPMENT_TEAM = 44HY3E3285;
+				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/node_modules/react-native/React/**",
 					"S(SRCROOT)/**",

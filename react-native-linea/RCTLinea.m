@@ -37,7 +37,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)sendDebug:(NSString *)debug {
-    [self sendEventWithName:@"debug" body:debug];
+    // [self sendEventWithName:@"debug" body:debug];
 }
 - (void)sendMagneticInfo:(NSString *)data {
     [self sendEventWithName:@"magneticInfo" body:data];
@@ -55,7 +55,7 @@ RCT_EXPORT_METHOD(initializeScanner) {
 
 RCT_EXPORT_METHOD(scanRfId) {
     [linea connect];
-    
+
     int methods = CARD_SUPPORT_TYPE_A + CARD_SUPPORT_TYPE_B + CARD_SUPPORT_FELICA + CARD_SUPPORT_NFC + CARD_SUPPORT_JEWEL + CARD_SUPPORT_ISO15 + CARD_SUPPORT_STSRI + CARD_SUPPORT_PICOPASS_ISO14 + CARD_SUPPORT_PICOPASS_ISO15;
     [linea rfInit:methods error:nil];
 }
@@ -65,7 +65,7 @@ RCT_EXPORT_METHOD(scanRfId) {
 - (void)rfCardDetected:(int)cardIndex info:(DTRFCardInfo *)info {
     NSData *uidData = [info UID];
     NSString *string = [uidData base64EncodedStringWithOptions:nil];
-    
+
     [self sendRfCardInfo:string];
 }
 
@@ -85,7 +85,7 @@ RCT_EXPORT_METHOD(scanRfId) {
 }
 
 - (void)connectionState:(int)state {
-    
+
     switch (state) {
         case CONN_CONNECTED:
             isConnected = YES;

@@ -1,6 +1,6 @@
 'use strict'
 import { Linea } from './NativeBridges';
-import { NativeEventEmitter } from 'react-native'; 
+import { NativeEventEmitter } from 'react-native';
 
 export default class LineaPro {
     constructor() {
@@ -12,31 +12,31 @@ export default class LineaPro {
     }
 
     addConnectionStateListener(callback) {
-        this.evt.addListener('connectionState', (data) => {
+        return this.evt.addListener('connectionState', (data) => {
             if (data === "connected") {
                 callback(true);
             }
             else {
                 callback(false);
             }
-        }); 
+        });
     }
 
     addDebugListener(callback) {
-        this.evt.addListener('debug', (data) => {
+        return this.evt.addListener('debug', (data) => {
             console.log(data);
             callback(data);
-        }); 
+        });
     }
 
     addRfCardListener(callback) {
-        this.evt.addListener('rfcardInfo', (data) => {
+        return this.evt.addListener('rfcardInfo', (data) => {
             callback(data);
         });
     }
 
     addMagneticInfoListener(callback) {
-        this.evt.addListener('magneticInfo', (data) => {
+        return this.evt.addListener('magneticInfo', (data) => {
             callback(data);
         });
     }
