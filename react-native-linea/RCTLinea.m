@@ -25,6 +25,7 @@ RCT_EXPORT_MODULE();
                 @"rfcardInfo",
                 @"debug",
                 @"magneticInfo",
+                @"barcodeInfo"
             ];
 }
 
@@ -43,6 +44,10 @@ RCT_EXPORT_MODULE();
     [self sendEventWithName:@"magneticInfo" body:data];
 }
 
+- (void)sendBarcodeInfo:(NSString *)data {
+    [self sendEventWithName:@"barcodeInfo" body:data];
+}
+
 #pragma mark React Native Methods
 
 RCT_EXPORT_METHOD(initializeScanner) {
@@ -58,6 +63,10 @@ RCT_EXPORT_METHOD(scanRfId) {
 
     int methods = CARD_SUPPORT_TYPE_A + CARD_SUPPORT_TYPE_B + CARD_SUPPORT_FELICA + CARD_SUPPORT_NFC + CARD_SUPPORT_JEWEL + CARD_SUPPORT_ISO15 + CARD_SUPPORT_STSRI + CARD_SUPPORT_PICOPASS_ISO14 + CARD_SUPPORT_PICOPASS_ISO15;
     [linea rfInit:methods error:nil];
+}
+
+RCT_EXPORT_METHOD(setBarcodeScanMode:(int) mode) {
+    [linea barcodeSetScanMode:mode error:nil];
 }
 
 #pragma mark DTDevices delegates
@@ -100,6 +109,10 @@ RCT_EXPORT_METHOD(scanRfId) {
             [self sendConnectionState:@"disconnected"];
             break;
     }
+}
+
+-(void)barcodeData:(NSString *)barcode type:(int) type {
+    [self sendBarcodeInfo:barcode];
 }
 
 @end

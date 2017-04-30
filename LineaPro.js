@@ -11,6 +11,10 @@ export default class LineaPro {
         Linea.initializeScanner();
     }
 
+    setBarcodeScanMode(mode) {
+        Linea.setBarcodeScanMode(mode);
+    }
+
     addConnectionStateListener(callback) {
         return this.evt.addListener('connectionState', (data) => {
             if (data === "connected") {
@@ -37,6 +41,12 @@ export default class LineaPro {
 
     addMagneticInfoListener(callback) {
         return this.evt.addListener('magneticInfo', (data) => {
+            callback(data);
+        });
+    }
+
+    addBarcodeInfoListener(callback) {
+        return this.evt.addListener('barcodeInfo', (data) => {
             callback(data);
         });
     }
