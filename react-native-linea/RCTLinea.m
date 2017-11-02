@@ -7,9 +7,9 @@
 //
 
 #import "RCTLinea.h"
-#import "RCTBridgeModule.h"
-#import "RCTEventDispatcher.h"
-#import "RCTEventEmitter.h"
+#import <React/RCTBridgeModule.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTEventEmitter.h>
 
 @implementation RCTLinea
 
@@ -48,6 +48,20 @@ RCT_EXPORT_MODULE();
     [self sendEventWithName:@"barcodeInfo" body:data];
 }
 
+#pragma mark React Native Constants
+- (NSDictionary *)constantsToExport
+{
+    return @{
+             @"BUTTON_ENABLED": @(BUTTON_ENABLED),
+             @"BUTTON_DISABLED": @(BUTTON_DISABLED),
+             @"MODE_MULTI_SCAN": @(MODE_MULTI_SCAN),
+             @"MODE_SINGLE_SCAN": @(MODE_SINGLE_SCAN),
+             @"MODE_MOTION_DETECT": @(MODE_MOTION_DETECT),
+             @"MODE_SINGLE_SCAN_RELEASE": @(MODE_SINGLE_SCAN_RELEASE),
+             @"MODE_MULTI_SCAN_NO_DUPLICATES": @(MODE_MULTI_SCAN_NO_DUPLICATES)
+            };
+}
+
 #pragma mark React Native Methods
 
 RCT_EXPORT_METHOD(initializeScanner) {
@@ -67,6 +81,24 @@ RCT_EXPORT_METHOD(scanRfId) {
 
 RCT_EXPORT_METHOD(setBarcodeScanMode:(int) mode) {
     [linea barcodeSetScanMode:mode error:nil];
+}
+
+RCT_EXPORT_METHOD(setBarcodeScanBeep:(BOOL) enabled) {
+    [linea barcodeSetScanBeep:enabled volume:0 beepData:nil length:0 error:nil];
+}
+
+RCT_EXPORT_METHOD(setBarcodeScanButtonMode:(int) mode) {
+    [linea barcodeSetScanButtonMode:mode error:nil];
+}
+
+RCT_EXPORT_METHOD(playSound:(int) volume beepData:(NSArray *) beepData) {
+    int count = [beepData count];
+    int finalData[count];
+    for (int i = 0; i < count; ++i) {
+        finalData[i] = [beepData[i] integerValue];
+    }
+    
+    [linea playSound:volume beepData:finalData length:sizeof(finalData) error:nil];
 }
 
 #pragma mark DTDevices delegates
