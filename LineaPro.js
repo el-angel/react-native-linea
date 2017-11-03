@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 import { Linea } from './NativeBridges';
 import { NativeEventEmitter } from 'react-native';
 

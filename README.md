@@ -11,18 +11,14 @@ Especially the 2nd answer (its more recent than the other one)
 Include the class at the top of your file like:
 ```import LineaPro from 'react-native-linea'```
 
-You should create an instance of the LineaPro and save it somewhere. I don't have the best practice, but
-I saved it in the state (which is probably bad practice, so let me know if you have a better one):
-
 ```javascript
 import React from 'react';
 import LineaPro from 'react-native-linea';
 
 class Test extends React.Component {
     constructor() {
-        this.setState({
-            linea: new LineaPro(),
-        });
+        super()
+        this.linea = new LineaPro();
     }
     ...
 }
@@ -63,11 +59,8 @@ import LineaPro from 'react-native-linea';
 
 class Test extends React.Component {
     constructor() {
-        ...
-        this.setState({
-            linea: new LineaPro
-        })
-
+        super();
+        this.linea = new LineaPro();
         this.connectionStateListener = this.connectionStateListener.bind(this);
         this.rfCardInfoListener = this.rfCardInfoListener.bind(this);
         this.debugListener = this.debugListener.bind(this);
@@ -76,16 +69,15 @@ class Test extends React.Component {
     }
 
     componentDidMount() {
-        this.state.linea.initialize();
-
-        this.state.linea.addConnectionStateListener(this.connectionStateListener);
-        this.state.linea.addDebugListener(this.debugListener);
-        this.state.linea.addRfCardListener(this.rfCardInfoListener);
-        this.state.linea.addMagneticInfoListener(this.magneticInfoListener);
+        this.linea.initialize();
+        this.linea.addConnectionStateListener(this.connectionStateListener);
+        this.linea.addDebugListener(this.debugListener);
+        this.linea.addRfCardListener(this.rfCardInfoListener);
+        this.linea.addMagneticInfoListener(this.magneticInfoListener);
     }
 
     activateScanner() {
-        this.state.linea.scanRfId();
+        this.linea.scanRfId();
     }
 
     connectionStateListener(data) {
