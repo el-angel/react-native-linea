@@ -1,19 +1,19 @@
-require "json"
+require 'json'
 
-package = JSON.parse(File.read(File.join(__dir__, "package.json")))
+package = JSON.parse(File.read(File.join(__dir__, '../node_modules/react-native-linea/package.json')))
 
 Pod::Spec.new do |s|
-  s.name         = "react-native-linea"
-  s.version      = package["version"]
-  s.summary      = package["description"]
-  s.description  = package['description']
-  s.homepage     = "https://github.com/el-angel/react-native-linea"
-  s.license      = package['license']
-  s.author       = package['author']
-  s.platforms    = { :ios => "10.0", :tvos => "10.0" }
-  s.source       = { :git => "https://github.com/el-angel/react-native-linea.git", :branch => 'master' }
-
-  s.source_files = "DTDevices.h", "react-native-linea/*.{h,m}"
-
-  s.dependency "React-Core"
+s.name                 = 'LineaPro'
+s.version              = package['version']
+s.summary              = package['description']
+s.license              = package['license']
+s.homepage             = 'https://github.com/el-angel/react-native-linea'
+s.authors              = package['author']
+s.source               = { :git => 'https://github.com/el-angel/react-native-linea.git', :tag => s.version }
+s.source_files         = '*.{h,m}','react-native-linea/*.{h,m}'
+s.requires_arc         = true
+s.platforms            = { :ios => "9.0" }
+s.vendored_libraries   = 'libdtdev.a'
+s.frameworks           = 'ExternalAccessory', 'CoreLocation'
+s.dependency           'React'
 end
